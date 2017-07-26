@@ -22,7 +22,7 @@ const objectKeys = [
     { key: '_estfactor', childKey: 'component' },
     'shortDescription',
     { key: '_estfactor', childKey: 'complexity' },
-    { key: '_estfactor', childKey: 'newOrModified' }, 
+    { key: '_estfactor', childKey: 'newOrModified' },
     'remarks',
     'inOutScope',
     , { key: '_estfactor', childKey: 'value' }];
@@ -66,12 +66,16 @@ class InventoriesView extends Component {
     render() {
         return (
             <PageView title="Inventory Items">
-                <div className="col-md-6">
-                    <span className="pull-left">
-                        <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
-                    </span>
+                <div className="ibox">
+                    <div className="ibox-title">
+                        <div className="ibox-tools">
+                            <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
+                        </div>
+                    </div>
+                    <div className="ibox-content">
+                        <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
+                    </div>
                 </div>
-                <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
             </PageView>
         );
     }

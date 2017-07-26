@@ -11,9 +11,9 @@ const colProps = [
     { colHeader: 'Project Status', colWidth: '10%' },
     { colHeader: 'Project Name', colWidth: '20%' },
     { colHeader: 'Customer', colWidth: '15%' },
-    { colHeader: 'Description', colWidth: '20%' },
-    { colHeader: 'Assigned Users', colWidth: '20%' },
-    { colHeader: 'Edit', colWidth: '15%' }];
+    { colHeader: 'Description', colWidth: '25%' },
+    { colHeader: 'Progress', colWidth: '15%' },
+    { colHeader: '', colWidth: '20%' }];
 
 const objectKeys = ['projectName', 'customer', 'description'];
 const url = Constants.serviceUrl + 'projects';
@@ -56,14 +56,16 @@ class ProjectsView extends Component {
     }
     render() {
         return (
-            <PageView>
+            <PageView title="Projects">
                 <div className="ibox">
                     <div className="ibox-title">
                         <div className="ibox-tools">
                             <AddNewButton onClick={() => this.openViewModal()} label="Add New Project" />
                         </div>
                     </div>
-                    <ProjectsList data={this.state.data} colProps={colProps} />
+                    <div className="ibox-content">
+                        <ProjectsList data={this.state.data} colProps={colProps} />
+                    </div>
                 </div>
             </PageView>
         )

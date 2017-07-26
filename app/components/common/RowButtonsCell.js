@@ -39,13 +39,13 @@ class RowButtonsCell extends Component {
         return (<td>
             {
                 (this.props.screenName == "ProjectsView") &&
-                <Link to={"/project/" + this.props.id}><a className="btn btn-xs" ><i className="fa fa-folder">View</i></a></Link>
+                <Link to={"/project/" + this.props.id}><a className="btn btn-white btn-sm" ><i className="fa fa-folder">View</i></a></Link>
             }
 
             {
-                false && <a href="#" className="btn btn-xs"><i className="fa fa-pencil"></i> Edit </a>
+                false && <a href="#" className="btn btn-white btn-sm"><i className="fa fa-pencil"></i> Edit </a>
             }
-            <a className="btn btn-xs" onClick={() => this.onDelete()}><i className="fa fa-trash-o" ></i> Delete </a>
+            <a className="btn btn-white btn-sm" onClick={() => this.onDelete()}><i className="fa fa-trash-o" ></i> Delete </a>
         </td>
         );
     }

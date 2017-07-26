@@ -30,22 +30,15 @@ class ProjectsList extends Component {
                                         <Link to={"/project/" + row._id}>{row.projectName}</Link>
                                     </td>
                                     <td >{row.customer}</td>
+                                    <td>{row.description}</td>
                                     <td className="project-completion">
                                         <small>Completion with: 48%</small>
                                         <div className="progress progress-mini">
                                             <div style={{ width: "48%" }} className="progress-bar"></div>
                                         </div>
                                     </td>
-                                    <td className="project-people">
-                                        <a href=""><img alt="image" className="img-circle" src="img/a3.jpg" /></a>
-                                        <a href=""><img alt="image" className="img-circle" src="img/a1.jpg" /></a>
-                                        <a href=""><img alt="image" className="img-circle" src="img/a2.jpg" /></a>
-                                        <a href=""><img alt="image" className="img-circle" src="img/a4.jpg" /></a>
-                                        <a href=""><img alt="image" className="img-circle" src="img/a5.jpg" /></a>
-                                    </td>
                                     <td className="project-actions">
-                                        <a href="#" className="btn btn-white btn-sm"><i className="fa fa-folder"></i> View </a>
-                                        <a href="#" className="btn btn-white btn-sm"><i className="fa fa-pencil"></i> Edit </a>
+                                        <Link to={"/project/" + row._id} className="btn btn-white btn-sm"><i className="fa fa-folder"></i>View</Link>
                                     </td>
                                 </tr>
                             )

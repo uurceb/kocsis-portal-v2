@@ -9,12 +9,12 @@ class FormModal extends Component {
         return (
             <Modal onRequestClose={true}
                 effect={Effect.ScaleUp}>
-                <div className="modal-content">
+                <div className="ibox">
                     <div className="modal-header">
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={ModalManager.close}><span aria-hidden="true">&times;</span></button>
                         <h4 className="modal-title" id="myModalLabel">{this.props.title}</h4>
                     </div>
-                    <div className="modal-body">
+                    <div className="ibox-content">
                         {this.props.children}
                     </div>
                     <div className="modal-footer">

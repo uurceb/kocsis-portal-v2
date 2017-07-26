@@ -35,27 +35,27 @@ class Navigation extends Component {
                             IN+
                             </div>
                     </li>
-                    <li className={this.activeRoute("/main")}>
+                    <li className={this.activeRoute("/main")} className="main_menu_item">
 
                         <Link to="/main"><i className="fa fa-th-large"></i> <span className="nav-label">Main view</span></Link>
                     </li>
-                    <li className={this.activeRoute("/estimator")}>
+                    <li className={this.activeRoute("/estimator")} className="main_menu_item">
                         <Link><i className="fa fa-bolt"></i> <span className="nav-label">Estimator</span></Link>
                         <ul className={this.secondLevelActive()}>
                             <li className={this.activeRoute("/projects")}>
-                                <Link to="/projects"><i className="fa fa-folder"></i> <span >Projects</span></Link>
+                                <Link to="/projects"><i className="fa fa-folder"></i> Projects</Link>
                             </li>
                             <li >
-                                <Link to="/phases"><i className="fa fa-folder"></i> <span >Phases</span></Link>
+                                <Link to="/phases"><i className="fa fa-hourglass-3"></i> Phases</Link>
                             </li>
                             <li >
-                                <Link to="/estimatingfactors"><i className="fa fa-folder"></i> <span >Estimating Factors</span></Link>
+                                <Link to="/estimatingfactors"><i className="fa fa-times-rectangle-o"></i> Estimating Factors</Link>
                             </li>
                             <li >
-                                <Link to="/inventoryitems"><i className="fa fa-folder"></i> <span >Inventory Items</span></Link>
+                                <Link to="/inventoryitems"><i className="fa fa-shopping-cart"></i> Inventory Items</Link>
                             </li>
                             <li >
-                                <Link to="/parameters"><i className="fa fa-folder"></i> <span >Parameters</span></Link>
+                                <Link to="/parameters"><i className="fa fa-list"></i> Parameters</Link>
                             </li>
                         </ul>
                     </li>

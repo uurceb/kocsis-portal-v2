@@ -255,7 +255,7 @@ body:not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-seco
 .mini-navbar .nav li:focus > .nav-second-level {
   display: block;
   border-radius: 0 2px 2px 0;
-  min-width: 140px;
+  min-width: 200px;
   height: auto;
 }
 body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
@@ -392,8 +392,7 @@ body.mini-navbar .navbar-static-side {
   width: 70px;
 }
 body.mini-navbar .profile-element,
-body.mini-navbar .nav-label,
-body.mini-navbar .navbar-default .nav li a span {
+body.mini-navbar .nav-label {
   display: none;
 }
 body.canvas-menu .profile-element {

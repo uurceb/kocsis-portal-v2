@@ -24,7 +24,7 @@ const DataRows = (props) => (
     })}</tbody>
 );
 const DataTable = (props) => (
-    <table className="table table-striped table-bordered">
+    <table className="table table-striped">
         {
             props.isColored && <colgroup>
                 {

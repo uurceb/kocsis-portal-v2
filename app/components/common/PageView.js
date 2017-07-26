@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-class ProjectsView extends Component {
+class PageView extends Component {
 
     render() {
         return (
         <div>
             <div className="row wrapper border-bottom white-bg page-heading">
                 <div className="col-sm-4">
-                    <h2>Project list</h2>
+                    <h2>{this.props.title}</h2>
                     <ol className="breadcrumb">
                         <li>
                             <a href="index.html">Home</a>
                         </li>
                         <li className="active">
-                            <strong>Project list</strong>
+                            <strong>{this.props.title}</strong>
                         </li>
                     </ol>
                 </div>
@@ -31,4 +31,4 @@ class ProjectsView extends Component {
 
 }
 
-export default ProjectsView
+export default PageView

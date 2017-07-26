@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Page from '../components/common/PageView'
+import PageView from '../components/common/PageView'
 import EstFactorAddModal from './EstFactorAddModal'
 import DataTable from "../components/common/DataTable"
 import Constants from '../constants'
 import AddNewButton from '../components/common/AddNewButton'
-import {ModalManager} from 'react-dynamic-modal'
+import { ModalManager } from 'react-dynamic-modal'
 
 
 const colProps = [
@@ -14,7 +14,7 @@ const colProps = [
     { colHeader: 'New/Modified', colWidth: '15%' },
     { colHeader: 'Value', colWidth: '5%' }]
 
-const objectKeys = [{key:'_project',childKey:'projectName'}, 'component', 'complexity', 'newOrModified','value'];
+const objectKeys = [{ key: '_project', childKey: 'projectName' }, 'component', 'complexity', 'newOrModified', 'value'];
 const url = Constants.serviceUrl + 'estimatingfactors';
 
 class EstimatingFactorsView extends Component {
@@ -40,9 +40,9 @@ class EstimatingFactorsView extends Component {
                 console.error(error);
             });
     }
-    openViewModal(){
-            ModalManager.open(
-                <EstFactorAddModal  url={url} onRequestClose={() => true}/>);
+    openViewModal() {
+        ModalManager.open(
+            <EstFactorAddModal url={url} onRequestClose={() => true} />);
     }
     componentDidMount() {
         this.loadDataFromServer();
@@ -54,14 +54,18 @@ class EstimatingFactorsView extends Component {
     }
     render() {
         return (
-            <Page title="Estimating Factors">
-                <div className="col-md-6">
-                    <span className="pull-left">
-                        <AddNewButton onClick={()=>this.openViewModal()} label="Add New Estimating Factor"/>
-                    </span>
+            <PageView title="Estimating Factors">
+                <div className="ibox">
+                    <div className="ibox-title">
+                        <div className="ibox-tools">
+                            <AddNewButton onClick={() => this.openViewModal()} label="Add New Estimating Factor" />
+                        </div>
+                    </div>
+                    <div className="ibox-content">
+                        <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
+                    </div>
                 </div>
-                <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
-            </Page>
+            </PageView>
         );
     }
 }

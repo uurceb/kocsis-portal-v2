@@ -61,12 +61,15 @@ class PhasesView extends Component {
     render() {
         return (
             <PageView title="Phases">
-                <div className="col-md-6">
-                    <span className="pull-left">
-                        <AddNewButton onClick={() => this.openViewModal()} label="Add New Phase" />
-                    </span>
-                </div>
-                <DataTable data={this.state.phases} url={url} colProps={colProps} objKeys={objectKeys} isColored={false} />
+                <div className="ibox">
+                    <div className="ibox-title">
+                        <div className="ibox-tools">
+                            <AddNewButton onClick={() => this.openViewModal()} label="Define New Phase to a Project" />
+                        </div></div>
+
+                    <div className="ibox-content">
+                        <DataTable data={this.state.phases} url={url} colProps={colProps} objKeys={objectKeys} isColored={false} />
+                    </div></div>
             </PageView>
         );
     }
