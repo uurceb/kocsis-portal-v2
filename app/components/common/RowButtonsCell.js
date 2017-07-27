@@ -38,8 +38,8 @@ class RowButtonsCell extends Component {
     render() {
         return (<td>
             {
-                (this.props.screenName == "ProjectsView") &&
-                <Link to={"/project/" + this.props.id}><a className="btn btn-white btn-sm" ><i className="fa fa-folder">View</i></a></Link>
+                false &&
+                <Link className="btn btn-white btn-sm" to={"/project/" + this.props.id}><i className="fa fa-folder">View</i></Link>
             }
 
             {

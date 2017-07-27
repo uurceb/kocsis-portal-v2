@@ -4,6 +4,7 @@ import Constants from '../constants'
 import DataTable from "../components/common/DataTable"
 const url = Constants.serviceUrl;
 import InventoryItemsList from './InventoryItemsList'
+
 class ProjectDetailView extends Component {
 
     constructor(props) {
@@ -184,6 +185,7 @@ class ProjectDetailView extends Component {
                                                 <li className=""><a href="#tab-2" data-toggle="tab" >Phase Details</a></li>
                                                 <li className=""><a href="#tab-3" data-toggle="tab" >Estimating Factors</a></li>
                                                 <li className=""><a href="#tab-4" data-toggle="tab" >Inventory</a></li>
+                                                <li className=""><a href="#tab-5" data-toggle="tab" >Test</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -260,7 +262,10 @@ class ProjectDetailView extends Component {
 
                                             </div>
                                             <div className="tab-pane" id="tab-4">
-                                                <InventoryItemsList data={inventoryItems} colProps={inColProps} phaseData={projectPhase}/>
+                                                <InventoryItemsList data={inventoryItems} colProps={inColProps} phaseData={projectPhase} />
+                                            </div>
+                                            <div className="tab-pane" id="tab-5">
+                                                
                                             </div>
                                         </div>
 
@@ -270,7 +275,7 @@ class ProjectDetailView extends Component {
                             </div>
                         </div>
                     </div>
-                </div></PageView>
+                </div></PageView >
         );
     }
 }
