@@ -12,21 +12,29 @@ import EstimatingFactorsView from '../views/EstimatingFactorsView';
 import InventoryItemsView from '../views/InventoryItemsView';
 import ParametersView from '../views/ParametersView';
 
-import { Route, Router, IndexRedirect, browserHistory } from 'react-router';
+import { Route, Router, IndexRedirect, browserHistory, hashHistory } from 'react-router';
+import { Provider } from 'react-redux'
+import PropTypes from 'prop-types'
 
-export default (
-    <Router history={browserHistory}>
-        <Route path="/" component={Main}>
-            <IndexRedirect to="/main" />
-            <Route path="main" component={MainView}> </Route>
-            <Route path="/projects" component={ProjectsView}></Route>
-            <Route path="/project/:projectId" component={ProjectDetailView} ></Route>
-            <Route path="/projecttest/:projectId" component={ProjectDetailTestView} ></Route>
-            <Route path="/phases" component={PhasesView} ></Route>
-            <Route path="/estimatingfactors" component={EstimatingFactorsView} ></Route>
-            <Route path="/inventoryitems" component={InventoryItemsView} ></Route>
-            <Route path="/parameters" component={ParametersView} ></Route>
-        </Route>
-    </Router>
-
-);
+const Root = ({ store }) => (
+    <Provider store={store}>
+        <Router history={hashHistory}>
+            <Router history={browserHistory}>
+                <Route path="/" component={Main}>
+                    <IndexRedirect to="/main" />
+                    <Route path="main" component={MainView}> </Route>
+                    <Route path="/projects" component={ProjectsView}></Route>
+                    <Route path="/project/:projectId" component={ProjectDetailView} ></Route>
+                    <Route path="/phases" component={PhasesView} ></Route>
+                    <Route path="/estimatingfactors" component={EstimatingFactorsView} ></Route>
+                    <Route path="/inventoryitems" component={InventoryItemsView} ></Route>
+                    <Route path="/parameters" component={ParametersView} ></Route>
+                </Route>
+            </Router>
+        </Router>
+    </Provider>
+)
+Root.propTypes = {
+    store: PropTypes.object.isRequired
+}
+export default Root;

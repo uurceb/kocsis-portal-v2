@@ -6,7 +6,6 @@ const url = Constants.serviceUrl;
 import InventoryItemsList from './InventoryItemsList'
 
 class ProjectDetailView extends Component {
-
     constructor(props) {
         super(props);
         this.state = { _id: props.params.projectId, projectData: {}, projectPhase: {}, estFactors: [], inventoryItems: [], sum: 0 }
@@ -141,7 +140,7 @@ class ProjectDetailView extends Component {
                                 <dl className="dl-horizontal">
 
                                     <dt>Created by:</dt> <dd>Uğur Cebeci</dd>
-                                    <dt>Comments:</dt> <dd>  162</dd>
+                                    <dt>Description:</dt> <dd> {projectData.description}</dd>
                                     <dt>Client:</dt> <dd><a href="#" className="text-navy"> {projectData.customer}</a> </dd>
                                     <dt>Version:</dt> <dd> 	v1.4.2 </dd>
                                 </dl>
@@ -185,7 +184,7 @@ class ProjectDetailView extends Component {
                                                 <li className=""><a href="#tab-2" data-toggle="tab" >Phase Details</a></li>
                                                 <li className=""><a href="#tab-3" data-toggle="tab" >Estimating Factors</a></li>
                                                 <li className=""><a href="#tab-4" data-toggle="tab" >Inventory</a></li>
-                                                <li className=""><a href="#tab-5" data-toggle="tab" >Test</a></li>
+                                                <li className=""><a href="#tab-5" data-toggle="tab" >Summary</a></li>
                                             </ul>
                                         </div>
                                     </div>

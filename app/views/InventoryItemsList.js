@@ -10,7 +10,7 @@ class InventoryItemsList extends Component {
     render() {
         return (
             <div className="project-list">
-                <table className="table table-stripped">
+                <table className="table table-striped">
                     <thead>
                         <tr>{
                             this.props.colProps.map((colProp, index) =>

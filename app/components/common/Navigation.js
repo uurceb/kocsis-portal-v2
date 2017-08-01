@@ -23,11 +23,16 @@ class Navigation extends Component {
                 <ul className="nav metismenu" id="side-menu" ref="menu">
                     <li className="nav-header">
                         <div className="dropdown profile-element"> <span>
+                            <img alt="image" className="img-circle" src="img/hatice_kartal.jpg" />
                         </span>
                             <a data-toggle="dropdown" className="dropdown-toggle" href="#">
-                                <span className="clear"> <span className="block m-t-xs"> <strong className="font-bold">Example user</strong>
-                                </span> <span className="text-muted text-xs block">Example position<b className="caret"></b></span> </span> </a>
+                                <span className="clear"> <span className="block m-t-xs"> <strong className="font-bold">Hatice Kartal</strong>
+                                </span> <span className="text-muted text-xs block">Director<b className="caret"></b></span> </span> </a>
                             <ul className="dropdown-menu animated fadeInRight m-t-xs">
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="contacts.html">Contacts</a></li>
+                                <li><a href="mailbox.html">Mailbox</a></li>
+                                <li className="divider"></li>
                                 <li><a href="#"> Logout</a></li>
                             </ul>
                         </div>
