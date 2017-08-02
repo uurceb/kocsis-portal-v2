@@ -9,13 +9,13 @@ import ProjectsList from './ProjectsList'
 
 const colProps = [
     { colHeader: 'Project Status', colWidth: '10%' },
-    { colHeader: 'Project Name', colWidth: '20%' },
-    { colHeader: 'Customer', colWidth: '15%' },
+    { colHeader: 'Project Name', colWidth: '15%' },
+    { colHeader: 'Category', colWidth: '10%' },
+    { colHeader: 'Customer', colWidth: '10%' },
     { colHeader: 'Description', colWidth: '25%' },
     { colHeader: 'Progress', colWidth: '15%' },
-    { colHeader: '', colWidth: '20%' }];
+    { colHeader: '', colWidth: '15%' }];
 
-const objectKeys = ['projectName', 'customer', 'description'];
 const url = Constants.serviceUrl + 'projects';
 
 class ProjectsView extends Component {

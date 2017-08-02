@@ -8,13 +8,13 @@ import { ModalManager } from 'react-dynamic-modal'
 
 
 const colProps = [
-    { colHeader: 'Project Name', colWidth: '25%' },
+    { colHeader: 'Category', colWidth: '25%' },
     { colHeader: 'Component', colWidth: '20%' },
     { colHeader: 'Complexity', colWidth: '15%' },
     { colHeader: 'New/Modified', colWidth: '15%' },
     { colHeader: 'Value', colWidth: '5%' }]
 
-const objectKeys = [{ key: '_project', childKey: 'projectName' }, 'component', 'complexity', 'newOrModified', 'value'];
+const objectKeys = [{ key: '_category', childKey: 'categoryName' }, 'component', 'complexity', 'newOrModified', 'value'];
 const url = Constants.serviceUrl + 'estimatingfactors';
 
 class EstimatingFactorsView extends Component {

@@ -26,10 +26,14 @@ class ProjectDetailView extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 _this.setState({ projectData: responseJson });
+                this.loadPhaseData();
+                this.loadEstFactorData();
+                this.loadInventoryData();
             })
             .catch((error) => {
                 console.error(error);
             });
+
     }
     loadPhaseData() {
         let _this = this;
@@ -50,7 +54,9 @@ class ProjectDetailView extends Component {
     }
     loadEstFactorData() {
         let _this = this;
-        fetch(url + '/estimatingfactors/getEstFactorsByProjectId/' + _this.state._id, {
+        const { projectData } = _this.state;
+        console.log(projectData._category);
+        fetch(url + '/estimatingfactors/getEstFactorsByCatId/' + projectData._category, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -87,9 +93,6 @@ class ProjectDetailView extends Component {
     }
     componentDidMount() {
         this.loadDataFromServer();
-        this.loadPhaseData();
-        this.loadEstFactorData();
-        this.loadInventoryData();
         //this.loadInterval = setInterval(this.loadDataFromServer, 2000);
     }
     render() {
@@ -192,7 +195,7 @@ class ProjectDetailView extends Component {
                                     <div className="panel-body">
 
                                         <div className="tab-content">
-                                            <div className="tab-pane active" id="tab-1">
+                                            <div className="tab-pane fade active in" id="tab-1">
                                                 <div className="feed-activity-list">
                                                     <div className="feed-element">
                                                         <a href="#" className="pull-left">
@@ -211,7 +214,7 @@ class ProjectDetailView extends Component {
                                                 </div>
 
                                             </div>
-                                            <div className="tab-pane" id="tab-2">
+                                            <div className="tab-pane fade" id="tab-2">
 
                                                 <ul className="stats-overview">
                                                     <li>
@@ -255,16 +258,16 @@ class ProjectDetailView extends Component {
                                                 </ul>
 
                                             </div>
-                                            <div className="tab-pane" id="tab-3">
+                                            <div className="tab-pane fade" id="tab-3">
 
                                                 <DataTable data={estFactors} objKeys={efObjectKeys} colProps={efColProps} disableButtons={true} />
 
                                             </div>
-                                            <div className="tab-pane" id="tab-4">
+                                            <div className="tab-pane fade" id="tab-4">
                                                 <InventoryItemsList data={inventoryItems} colProps={inColProps} phaseData={projectPhase} />
                                             </div>
-                                            <div className="tab-pane" id="tab-5">
-                                                
+                                            <div className="tab-pane fade" id="tab-5">
+
                                             </div>
                                         </div>
 

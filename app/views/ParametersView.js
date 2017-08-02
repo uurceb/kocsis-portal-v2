@@ -3,6 +3,7 @@ import PageView from '../components/common/PageView'
 import Constants from '../constants'
 import ComponentsParamBox from './ComponentsParamBox'
 import ComplexityParamBox from './ComplexityParamBox'
+import CategoryParamBox from './CategoryParamBox'
 const url = Constants.serviceUrl;
 
 
@@ -43,6 +44,9 @@ class ParametersView extends Component {
         return (
             <PageView title="Parameters">
                 <div className="row">
+                    <div className="col-md-4 col-sm-12 col-xs-12">
+                        <CategoryParamBox url={url} />
+                    </div>
                     <div className="col-md-4 col-sm-12 col-xs-12">
                         <ComponentsParamBox url={url} />
                     </div>

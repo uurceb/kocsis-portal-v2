@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import Constants from '../../constants'
-const url = Constants.serviceUrl + 'components';
+const url = Constants.serviceUrl + 'categories';
 
 
-class ComponentDropdownList extends Component {
+class CategoryDropdownList extends Component {
     constructor(props) {
         super(props);
-        this.state = { components: [] };
+        this.state = { categories: []};
     }
     loadDataFromServer() {
         let _this = this;
-        fetch(!_this.props.category ? url : url + '/getCompByCatId/' + _this.props.category, {
+        fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -19,7 +19,7 @@ class ComponentDropdownList extends Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                _this.setState({ components: responseJson });
+                _this.setState({ categories: responseJson });
             })
             .catch((error) => {
                 console.error(error);
@@ -37,11 +37,11 @@ class ComponentDropdownList extends Component {
             <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)}>
                 <option value={0}>*</option>
                 {
-                    this.state.components.map((component, index) => <option value={component.compName} key={index}>{component.compName}</option>)
+                    this.state.categories.map((category, index) => <option value={category._id} key={index}>{category.categoryName}</option>)
                 }
             </select>
         );
     }
 }
 
-export default ComponentDropdownList;
+export default CategoryDropdownList;

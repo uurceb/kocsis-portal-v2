@@ -29,6 +29,7 @@ class ProjectsList extends Component {
                                     <td className="project-title">
                                         <Link to={"/project/" + row._id}>{row.projectName}</Link>
                                     </td>
+                                    <td >{row._category.categoryName}</td>
                                     <td >{row.customer}</td>
                                     <td>{row.description}</td>
                                     <td className="project-completion">
