@@ -10,7 +10,7 @@ class ComponentDropdownList extends Component {
     }
     loadDataFromServer() {
         let _this = this;
-        fetch(!_this.props.category ? url : url + '/getCompByCatId/' + _this.props.category, {
+        fetch(!_this.props.key ? url : url + '/getCompByCatId/' + _this.props.key, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

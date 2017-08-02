@@ -50,7 +50,7 @@ class EstFactorAddModal extends Component {
                 <div className="row">
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Component  </label>
-                        <ComponentDropdownList category={formData.categoryId} onChange={(value) => this.onDataChange("component", value)} />
+                        <ComponentDropdownList key={formData.categoryId} onChange={(value) => this.onDataChange("component", value)} />
                     </div>
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Complexity  </label>
