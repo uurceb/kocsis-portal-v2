@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 
 import AddNewButton from '../components/common/AddNewButton'
 import ParamBoxRow from '../components/common/ParamBoxRow'
-
 import Constants from '../constants'
 
-const url = Constants.serviceUrl + 'complexities';
+const url = Constants.serviceUrl + 'projectstatus';
 
-class ComplexityParamBox extends Component {
+class ProjectStatusParamBox extends Component {
     constructor(props) {
         super(props);
-        this.state = { newComp: '', complexities: [] };
+        this.state = { newStatus: '', projectStatus: [] };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
     }
     loadDataFromServer() {
@@ -24,16 +23,16 @@ class ComplexityParamBox extends Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                _this.setState({ complexities: responseJson });
+                _this.setState({ projectStatus: responseJson });
             })
             .catch((error) => {
                 console.error(error);
             });
     }
     onDataChange(value) {
-        this.setState({ newComp: value });
+        this.setState({ newStatus: value });
     }
-    addComplexity() {
+    addStatus() {
         fetch(url, {
             method: 'POST',
             headers: {
@@ -41,10 +40,10 @@ class ComplexityParamBox extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                compName: this.state.newComp
+                statusName: this.state.newStatus
             })
         }).then(() => {
-            this.setState({ newComp: '' });
+            this.setState({ newStatus: '' });
         }).catch((e) => {
             console.log(e);
         });;
@@ -61,19 +60,21 @@ class ComplexityParamBox extends Component {
     render() {
         return (
             <div className="ibox-content">
-                <h2>Complexities </h2>
-                <small>simple, complex etc..</small>
+                <h2>Project Status </h2>
+                <small>webapp, service etc..</small>
                 <ul className="todo-list m-t">
                     {
-                        this.state.complexities.map((complexity, index) => <li key={index}>
-                            <ParamBoxRow paramId={complexity._id} url={url}>{complexity.compName}</ParamBoxRow>
+                        this.state.projectStatus.map((status, index) => <li key={index}>
+                            <ParamBoxRow paramId={status._id} url={url}>{status.statusName}</ParamBoxRow>
+
                         </li>)
                     }
+                    <li><div className="row"><input className="form-control" type="textfield" id="newStatus" value={this.state.newStatus} onChange={(e) => this.onDataChange(e.target.value)} /></div></li>
                 </ul>
                 <div>
-                    <input className="form-control" type="textfield" id="newComplexity" value={this.state.newComp} onChange={(e) => this.onDataChange(e.target.value)} />
+                    
                     <span className="pull-right" style={{ marginTop: '4px' }}>
-                        <AddNewButton label="Add" onClick={() => this.addComplexity()} />
+                        <AddNewButton label="Add" onClick={() => this.addStatus()} />
                     </span>
                 </div>
             </div>
@@ -81,4 +82,4 @@ class ComplexityParamBox extends Component {
     }
 }
 
-export default ComplexityParamBox;
+export default ProjectStatusParamBox;

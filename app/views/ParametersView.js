@@ -4,6 +4,7 @@ import Constants from '../constants'
 import ComponentsParamBox from './ComponentsParamBox'
 import ComplexityParamBox from './ComplexityParamBox'
 import CategoryParamBox from './CategoryParamBox'
+import ProjectStatusParamBox from './ProjectStatusParamBox'
 const url = Constants.serviceUrl;
 
 
@@ -52,6 +53,11 @@ class ParametersView extends Component {
                     </div>
                     <div className="col-md-4 col-sm-12 col-xs-12">
                         <ComplexityParamBox url={url} />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-4 col-sm-12 col-xs-12">
+                        <ProjectStatusParamBox url={url} />
                     </div>
                 </div>
             </PageView>

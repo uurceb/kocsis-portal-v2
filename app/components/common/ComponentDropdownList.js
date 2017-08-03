@@ -6,11 +6,11 @@ const url = Constants.serviceUrl + 'components';
 class ComponentDropdownList extends Component {
     constructor(props) {
         super(props);
-        this.state = { components: [] };
+        this.state = { category: props.categoryId, components: [] };
     }
-    loadDataFromServer() {
+    loadDataFromServer(categoryId) {
         let _this = this;
-        fetch(!_this.props.key ? url : url + '/getCompByCatId/' + _this.props.key, {
+        fetch((categoryId=='0'|| !categoryId)?url:url + '/getCompByCatId/' + categoryId, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -27,7 +27,11 @@ class ComponentDropdownList extends Component {
     }
 
     componentDidMount() {
-        this.loadDataFromServer();
+        this.loadDataFromServer(this.props.categoryId);
+    }
+    componentWillReceiveProps(nextProp) {
+        if (this.props.categoryId != nextProp.categoryId)
+            this.loadDataFromServer(nextProp.categoryId);
     }
     onDataChange(value) {
         this.props.onChange(value);

@@ -264,7 +264,8 @@ class ProjectDetailView extends Component {
 
                                             </div>
                                             <div className="tab-pane fade" id="tab-4">
-                                                <InventoryItemsList data={inventoryItems} colProps={inColProps} phaseData={projectPhase} />
+                                                <InventoryItemsList sum={this.state.sum} data={inventoryItems} colProps={inColProps} phaseData={projectPhase} />
+                                                
                                             </div>
                                             <div className="tab-pane fade" id="tab-5">
 

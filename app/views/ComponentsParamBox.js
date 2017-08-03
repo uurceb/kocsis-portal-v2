@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import AddNewButton from '../components/common/AddNewButton'
 import CategoryDropdownList from '../components/common/CategoryDropdownList'
-
+import ParamBoxRow from '../components/common/ParamBoxRow'
 
 
 import Constants from '../constants'
@@ -74,7 +74,7 @@ class ComponentsParamBox extends Component {
                 <ul className="todo-list m-t">
                     {
                         this.state.components.map((component, index) => <li key={index}>
-                            <span className="m-l-xs"> {component.compName} </span>
+                             <ParamBoxRow paramId={component._id} url={url}>{component.compName}</ParamBoxRow>
                         </li>)
                     }
                 </ul>

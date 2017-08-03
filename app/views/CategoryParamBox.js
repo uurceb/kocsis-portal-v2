@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AddNewButton from '../components/common/AddNewButton'
-
+import ParamBoxRow from '../components/common/ParamBoxRow'
 import Constants from '../constants'
 
 const url = Constants.serviceUrl + 'categories';
@@ -65,7 +65,8 @@ class ComplexityParamBox extends Component {
                 <ul className="todo-list m-t">
                     {
                         this.state.projectCategories.map((category, index) => <li key={index}>
-                            <span className="m-l-xs">{category.categoryName}</span>
+                            <ParamBoxRow paramId={category._id} url={url}>{category.categoryName}</ParamBoxRow>
+
                         </li>)
                     }
                 </ul>

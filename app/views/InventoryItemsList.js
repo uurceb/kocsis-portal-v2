@@ -31,10 +31,12 @@ class InventoryItemsList extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.props.data.map((row, index) =>
-                                <InventoryRow rowdata={row} index={index} key={index} phaseData={this.props.phaseData} />
+                            this.props.data.map(
+                                (row, index) =>
+                                    <InventoryRow rowdata={row} index={index} key={index} phaseData={this.props.phaseData} />
                             )
                         }
+                        <InventoryRow isBold={true} rowdata={{ _estfactor: { value: this.props.sum, component: 'Sum', complexity: '', newOrModified: '' } }} phaseData={this.props.phaseData} />
                     </tbody>
                 </table>
             </div>

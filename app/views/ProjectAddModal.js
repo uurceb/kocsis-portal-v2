@@ -25,7 +25,8 @@ class ProjectAddModal extends Component {
                 projectName: this.state.formData.projectName,
                 customer: this.state.formData.customer,
                 projectPhase: this.state.formData.projectPhase,
-                description: this.state.formData.description
+                description: this.state.formData.description,
+                _status:'5983323a828b55326c517016'
             })
         }).then(() => {
             ModalManager.close();

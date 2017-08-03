@@ -7,7 +7,7 @@ class InventoryRow extends Component {
     render() {
         const { rowdata, index, phaseData } = this.props
         return (
-            <tr key={index}>
+            <tr key={index} style={this.props.isBold?{fontWeight:"bold"}:{}}>
                 <td >{rowdata._estfactor.component}</td>
                 <td >
                     {rowdata.shortDescription}
