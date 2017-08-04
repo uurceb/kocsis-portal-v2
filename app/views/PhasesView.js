@@ -66,7 +66,6 @@ class PhasesView extends Component {
                         <div className="ibox-tools">
                             <AddNewButton onClick={() => this.openViewModal()} label="Define New Phase to a Project" />
                         </div></div>
-
                     <div className="ibox-content">
                         <DataTable data={this.state.phases} url={url} colProps={colProps} objKeys={objectKeys} isColored={false} />
                     </div></div>

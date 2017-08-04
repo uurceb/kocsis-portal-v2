@@ -55,8 +55,7 @@ class ProjectDetailView extends Component {
     loadEstFactorData() {
         let _this = this;
         const { projectData } = _this.state;
-        console.log(projectData._category);
-        fetch(url + '/estimatingfactors/getEstFactorsByCatId/' + projectData._category, {
+        fetch(url + '/estimatingfactors/getEstFactorsByCatId/' + projectData._category._id, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -96,8 +95,7 @@ class ProjectDetailView extends Component {
         //this.loadInterval = setInterval(this.loadDataFromServer, 2000);
     }
     render() {
-        const { projectData, projectPhase, estFactors, inventoryItems } = this.state;
-        var inventorySum = 0;
+        const { projectData, projectPhase, estFactors, inventoryItems, sum } = this.state;
         const efColProps = [
             { colHeader: 'Component', colWidth: '25%' },
             { colHeader: 'Complexity', colWidth: '25%' },
@@ -134,7 +132,7 @@ class ProjectDetailView extends Component {
                                     <h2>{projectData.projectName}</h2>
                                 </div>
                                 <dl className="dl-horizontal">
-                                    <dt>Status:</dt> <dd><span className="label label-primary">Active</span></dd>
+                                    <dt>Status:</dt> <dd><span className="label label-primary">{projectData._status ? projectData._status.statusName : 'No status'}</span></dd>
                                 </dl>
                             </div>
                         </div>
@@ -145,7 +143,7 @@ class ProjectDetailView extends Component {
                                     <dt>Created by:</dt> <dd>Uğur Cebeci</dd>
                                     <dt>Description:</dt> <dd> {projectData.description}</dd>
                                     <dt>Client:</dt> <dd><a href="#" className="text-navy"> {projectData.customer}</a> </dd>
-                                    <dt>Version:</dt> <dd> 	v1.4.2 </dd>
+                                    <dt>Category:</dt> <dd> {projectData._category ? projectData._category.categoryName : 'No category'} </dd>
                                 </dl>
                             </div>
                             <div className="col-lg-7" id="cluster_info">
@@ -164,19 +162,7 @@ class ProjectDetailView extends Component {
                                 </dl>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <dl className="dl-horizontal">
-                                    <dt>Completed:</dt>
-                                    <dd>
-                                        <div className="progress progress-striped active m-b-sm">
-                                            <div style={{ width: "60%" }} className="progress-bar"></div>
-                                        </div>
-                                        <small>Project completed in <strong>60%</strong>. Remaining close the project, sign a contract and invoice.</small>
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
+
                         <div className="row m-t-sm">
                             <div className="col-lg-12">
                                 <div className="panel blank-panel">
@@ -215,60 +201,135 @@ class ProjectDetailView extends Component {
 
                                             </div>
                                             <div className="tab-pane fade" id="tab-2">
-
-                                                <ul className="stats-overview">
-                                                    <li>
-                                                        <span className="name"> Analysis % </span>
-                                                        <span className="value text-success"> {projectPhase.analysis} </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="name"> Design % </span>
-                                                        <span className="value text-success"> {projectPhase.design} </span>
-                                                    </li>
-                                                    <li className="hidden-phone">
-                                                        <span className="name"> Development % </span>
-                                                        <span className="value text-success"> {projectPhase.dev} </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="name"> Unit Test % </span>
-                                                        <span className="value text-success"> {projectPhase.unitTest} </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="name"> Int Test % </span>
-                                                        <span className="value text-success"> {projectPhase.intTest} </span>
-                                                    </li>
-                                                    <li className="hidden-phone">
-                                                        <span className="name"> UAT % </span>
-                                                        <span className="value text-success"> {projectPhase.uat} </span>
-                                                    </li>
-                                                </ul>
-                                                <ul className="stats-overview">
-                                                    <li>
-                                                        <span className="name"> Project Management % </span>
-                                                        <span className="value text-success"> {projectPhase.pManagement} </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="name"> Solution Architecture % </span>
-                                                        <span className="value text-success"> {projectPhase.solArch} </span>
-                                                    </li>
-                                                    <li className="hidden-phone">
-                                                        <span className="name"> Code Merge & Regression % </span>
-                                                        <span className="value text-success"> {projectPhase.codeMergeReg} </span>
-                                                    </li>
-                                                </ul>
-
+                                                {projectPhase ? <div>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: projectPhase.analysis + '%' }}>
+                                                            <span className="name"> Analysis</span><br />
+                                                            <span className="value text-success"> {projectPhase.analysis + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.design + '%' }}>
+                                                            <span className="name"> Design</span><br />
+                                                            <span className="value text-success"> {projectPhase.design + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.dev + '%' }}>
+                                                            <span className="name"> Development</span><br />
+                                                            <span className="value text-success"> {projectPhase.dev + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.unitTest + '%' }}>
+                                                            <span className="name"> Unit Test</span><br />
+                                                            <span className="value text-success"> {projectPhase.unitTest + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.intTest + '%' }}>
+                                                            <span className="name"> Int Test</span><br />
+                                                            <span className="value text-success"> {projectPhase.intTest + '%'} </span>
+                                                        </li>
+                                                        <li >
+                                                            <span className="name" style={{ width: projectPhase.uat + '%' }}> UAT</span><br />
+                                                            <span className="value text-success"> {projectPhase.uat + '%'} </span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: '34%' }}>
+                                                            <span className="name" > Project Management</span>
+                                                            <span className="value text-success"> {projectPhase.pManagement + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: '33%' }}>
+                                                            <span className="name" > Solution Architecture</span>
+                                                            <span className="value text-success"> {projectPhase.solArch + '%'} </span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: '33%' }}>
+                                                            <span className="name" > Code Merge & Regression</span>
+                                                            <span className="value text-success"> {projectPhase.codeMergeReg + '%'} </span>
+                                                        </li>
+                                                    </ul></div> : 'Not any project phase defined'
+                                                }
                                             </div>
                                             <div className="tab-pane fade" id="tab-3">
-
-                                                <DataTable data={estFactors} objKeys={efObjectKeys} colProps={efColProps} disableButtons={true} />
-
+                                                {estFactors.length > 0 ?
+                                                    <DataTable data={estFactors} objKeys={efObjectKeys} colProps={efColProps} disableButtons={true} /> :
+                                                    <p>Not any estimation factor</p>
+                                                }
                                             </div>
                                             <div className="tab-pane fade" id="tab-4">
-                                                <InventoryItemsList sum={this.state.sum} data={inventoryItems} colProps={inColProps} phaseData={projectPhase} />
-                                                
+                                                {
+                                                    inventoryItems.length > 0 ?
+                                                        <InventoryItemsList sum={sum} data={inventoryItems} colProps={inColProps} phaseData={projectPhase} /> :
+                                                        'Not any inventory item'
+                                                }
                                             </div>
                                             <div className="tab-pane fade" id="tab-5">
-
+                                                {projectPhase ? <div>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: projectPhase.analysis + '%' }}>
+                                                            <span className="name"> Analysis</span><br />
+                                                            <span className="value text-success"> {projectPhase.analysis + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.analysis*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.design + '%' }}>
+                                                            <span className="name"> Design</span><br />
+                                                            <span className="value text-success"> {projectPhase.design + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.design*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.dev + '%' }}>
+                                                            <span className="name"> Development</span><br />
+                                                            <span className="value text-success"> {projectPhase.dev + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.dev*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.unitTest + '%' }}>
+                                                            <span className="name"> Unit Test</span><br />
+                                                            <span className="value text-success"> {projectPhase.unitTest + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.unitTest*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: projectPhase.intTest + '%' }}>
+                                                            <span className="name"> Int Test</span><br />
+                                                            <span className="value text-success"> {projectPhase.intTest + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.intTest*sum/100}</span>
+                                                        </li>
+                                                        <li >
+                                                            <span className="name" style={{ width: projectPhase.uat + '%' }}> UAT</span><br />
+                                                            <span className="value text-success"> {projectPhase.intTest + '%'} </span><br />
+                                                            <span className="value text-danger"> {projectPhase.intTest*sum/100}</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: '100%', textAlign:'right'}}>
+                                                            <span className="name" >Sub Total: </span>
+                                                            <span className="value text-success"> {projectPhase.analysis+projectPhase.design+projectPhase.dev+projectPhase.unitTest+projectPhase.intTest+projectPhase.uat+ '%'} </span>
+                                                            <span className="value text-danger"> {(projectPhase.analysis+projectPhase.design+projectPhase.dev+projectPhase.unitTest+projectPhase.intTest+projectPhase.uat)*sum/100}</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: '34%' }}>
+                                                            <span className="name" > Project Management</span>
+                                                            <span className="value text-success"> {projectPhase.pManagement + '%'} </span>
+                                                            <span className="value text-danger"> {projectPhase.pManagement*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: '33%' }}>
+                                                            <span className="name" > Solution Architecture</span>
+                                                            <span className="value text-success"> {projectPhase.solArch + '%'} </span>
+                                                            <span className="value text-danger"> {projectPhase.solArch*sum/100}</span>
+                                                        </li>
+                                                        <li style={{ float: 'left', width: '33%' }}>
+                                                            <span className="name" > Code Merge & Regression</span>
+                                                            <span className="value text-success"> {projectPhase.codeMergeReg + '%'} </span>
+                                                            <span className="value text-danger"> {projectPhase.codeMergeReg*sum/100}</span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: '100%', textAlign:'right'}}>
+                                                            <span className="name" >Sub Total: </span>
+                                                            <span className="value text-success"> {projectPhase.pManagement+projectPhase.solArch+projectPhase.codeMergeReg + '%'} </span>
+                                                            <span className="value text-danger"> {(projectPhase.pManagement+projectPhase.solArch+projectPhase.codeMergeReg)*sum/100}</span>
+                                                        </li>
+                                                    </ul>
+                                                     <ul className="todo-list m-t">
+                                                        <li style={{ float: 'left', width: '100%', textAlign:'right'}}>
+                                                            <span className="name" >Total: </span>
+                                                            <span className="value text-danger"> {(projectPhase.pManagement+projectPhase.solArch+projectPhase.codeMergeReg)*sum/100+sum} </span>ManDay
+                                                        </li>
+                                                    </ul>
+                                                    </div> : 'Not any project phase defined'
+                                                }
                                             </div>
                                         </div>
 

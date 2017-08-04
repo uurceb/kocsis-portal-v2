@@ -66,13 +66,11 @@ class ProjectStatusParamBox extends Component {
                     {
                         this.state.projectStatus.map((status, index) => <li key={index}>
                             <ParamBoxRow paramId={status._id} url={url}>{status.statusName}</ParamBoxRow>
-
                         </li>)
                     }
-                    <li><div className="row"><input className="form-control" type="textfield" id="newStatus" value={this.state.newStatus} onChange={(e) => this.onDataChange(e.target.value)} /></div></li>
                 </ul>
                 <div>
-                    
+                    <input className="form-control" type="textfield" id="newStatus" value={this.state.newStatus} onChange={(e) => this.onDataChange(e.target.value)} />
                     <span className="pull-right" style={{ marginTop: '4px' }}>
                         <AddNewButton label="Add" onClick={() => this.addStatus()} />
                     </span>
