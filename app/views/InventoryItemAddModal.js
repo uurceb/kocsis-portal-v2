@@ -8,7 +8,7 @@ import { ModalManager } from 'react-dynamic-modal';
 class InventoryItemAddModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { formData: { projectId: '', estfactorId: '', shortDescription: '', remarks: '', inOutScope: '' } }
+        this.state = { formData: { project: {}, estfactorId: '', shortDescription: '', remarks: '', inOutScope: '' } }
     }
     onDataChange(key, value) {
         let _formData = this.state.formData;
@@ -16,7 +16,6 @@ class InventoryItemAddModal extends Component {
         this.setState({ formData: _formData });
     }
     onSubmit() {
-        console.log('proje id' + this.state.formData.projectId);
         fetch(this.props.url, {
             method: 'POST',
             headers: {
@@ -24,7 +23,7 @@ class InventoryItemAddModal extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                _project: this.state.formData.projectId,
+                _project: this.state.formData.project._id,
                 _estfactor: this.state.formData.estfactorId,
                 shortDescription: this.state.formData.shortDescription,
                 remarks: this.state.formData.remarks,
@@ -43,11 +42,11 @@ class InventoryItemAddModal extends Component {
                 <div className="row">
                     <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Project</label>
-                        <ProjectDropdownList onChange={(value) => this.onDataChange("projectId", value)} />
+                        <ProjectDropdownList onChange={(value) => this.onDataChange("project", value)} />
                     </div>
                     <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="estimationFactor">Estimation Factor  </label>
-                        <EstFactorDropdownList projectId={this.state.projectId} onChange={(value) => this.onDataChange("estfactorId", value)} />
+                        <EstFactorDropdownList categoryId={formData.project._category ? formData.project._category._id : null} onChange={(value) => this.onDataChange("estfactorId", value)} />
                     </div>
                     <div className="col-md-2 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="inOutScope">In/Out of Scope</label>

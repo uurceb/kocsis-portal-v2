@@ -98,6 +98,7 @@ const ldata = {
         }
     ]
 };
+
 class Main extends Component {
 
     render() {
@@ -108,13 +109,57 @@ class Main extends Component {
                         <div className="text-center m-t-lg">
                             <h1>
                                 KoçSistem Management Portal
-                                     </h1>
+                            </h1>
                         </div>
                         <div className="row">
                             <div className="col-md-6 col-sm-12 col-xs-12">
+
                                 <div className="ibox float-e-margins">
                                     <div className="text-center m-t-lg">
                                         <h2>Projects Status</h2>
+                                    </div>
+                                    <div className="ibox-content">
+                                        <table className="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Project Name</th>
+                                                    <th>Time Status</th>
+                                                    <th>Budged Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Akbank Face</td>
+                                                    <td><span className="label label-danger">Critic</span></td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Akbank Integro</td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                    <td><span className="label label-danger">Critic</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Akbank MCA</td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Akbank Integro</td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                    <td><span className="label label-danger">Critic</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Akbank MCA</td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                    <td><span className="label label-primary">Ok</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="ibox float-e-margins">
+                                    <div className="text-center m-t-lg">
+                                        <h2>Active Projects</h2>
                                     </div>
                                     <div className="ibox-content">
                                         <Doughnut data={ddata} />
@@ -129,6 +174,11 @@ class Main extends Component {
                                         <Line_ data={ldata} />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-6 col-sm-12 col-xs-12">
+
                             </div>
                         </div>
                     </div>

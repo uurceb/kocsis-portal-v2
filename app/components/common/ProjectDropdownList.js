@@ -6,7 +6,7 @@ const url = Constants.serviceUrl + 'projects';
 class ProjectDropdownList extends Component {
     constructor(props) {
         super(props);
-        this.state = { projects: []};
+        this.state = { projects: [], defaultValue: '*' };
     }
     loadDataFromServer() {
         let _this = this;
@@ -30,12 +30,17 @@ class ProjectDropdownList extends Component {
         this.loadDataFromServer();
     }
     onDataChange(value) {
-        this.props.onChange(value);
+        var _project = this.state.projects.filter(x => x._id === value)[0];
+        if (!_project)
+            _project = {};
+
+        this.props.onChange(_project);
     }
     render() {
+        const { defaultValue } = this.state;
         return (
-            <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)}>
-                <option value={0}>*</option>
+            <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)} >
+                <option >{defaultValue}</option>
                 {
                     this.state.projects.map((project, index) => <option value={project._id} key={index}>{project.projectName}</option>)
                 }

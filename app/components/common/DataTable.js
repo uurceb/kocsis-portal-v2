@@ -10,7 +10,7 @@ const DataRows = (props) => (
 
                         if (typeof objKey === 'object')
                             return (<td key={index}>{
-                                row[objKey['key']][objKey['childKey']]
+                                row[objKey['key']]?row[objKey['key']][objKey['childKey']]:'unknown'
                             }</td>);
                         else
                             return (<td key={index}>{

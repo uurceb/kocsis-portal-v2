@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import Constants from '../../constants'
 const url = Constants.serviceUrl + 'estimatingfactors';
-var _url=url;
 
 class EstFactorDropdownList extends Component {
     constructor(props) {
         super(props);
-        this.state = { estimationfactors: [] };
+        this.state = { estimationfactors: [], defaultValue: '*' };
     }
-    loadDataFromServer() {
+    loadDataFromServer(categoryId) {
         let _this = this;
-        
-        if (_this.props.projectId != null)
-            _url = url + '/getEstFactorsByProjectId/' + _this.props.projectId;
+
+        var _url = (categoryId == '0' || !categoryId) ? url : url + '/getEstFactorsByCatId/' + categoryId;
         fetch(_url, {
             method: 'GET',
             headers: {
@@ -32,13 +30,20 @@ class EstFactorDropdownList extends Component {
     componentDidMount() {
         this.loadDataFromServer();
     }
+
+    componentWillReceiveProps(nextProp) {
+        if (this.props.categoryId != nextProp.categoryId) {
+            this.loadDataFromServer(nextProp.categoryId);
+        }
+    }
     onDataChange(value) {
         this.props.onChange(value);
     }
     render() {
+        const { defaultValue } = this.state;
         return (
             <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)}>
-                <option value={0}>*</option>
+                <option>{defaultValue}</option>
                 {
                     this.state.estimationfactors.map((estimationfactor, index) =>
                         <option value={estimationfactor._id} key={index}>

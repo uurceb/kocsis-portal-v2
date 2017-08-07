@@ -6,7 +6,7 @@ import { ModalManager } from 'react-dynamic-modal';
 class PhaseAddModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { formData: { projectId: '', analysis: '10', design: '15', dev: '45', unitTest: '15', intTest: '10', uat: '5', pManagement: '10', solArch: '0', codeMergeReg: '0' } }
+        this.state = { formData: { project: {}, analysis: '10', design: '15', dev: '45', unitTest: '15', intTest: '10', uat: '5', pManagement: '10', solArch: '0', codeMergeReg: '0' } }
         
     }
     onDataChange(key, value) {
@@ -22,7 +22,7 @@ class PhaseAddModal extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                _project: this.state.formData.projectId,
+                _project: this.state.formData.project._id,
                 pManagement: this.state.formData.pManagement,
                 analysis: this.state.formData.analysis,
                 design: this.state.formData.design,
@@ -46,7 +46,7 @@ class PhaseAddModal extends Component {
                 <div className="row">
                     <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Project</label>
-                        <ProjectDropdownList onChange={(value) => this.onDataChange("projectId", value)} />
+                        <ProjectDropdownList onChange={(value) => this.onDataChange("project", value)} />
                     </div>
                 </div>
                 <div className="row">
