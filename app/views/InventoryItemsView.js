@@ -5,7 +5,7 @@ import DataTable from "../components/common/DataTable"
 import Constants from '../constants'
 import AddNewButton from '../components/common/AddNewButton'
 import { ModalManager } from 'react-dynamic-modal'
-
+import ProjectDropdownList from '../components/common/ProjectDropdownList'
 
 const colProps = [
     { colHeader: 'Project Name', colWidth: '10%' },
@@ -31,12 +31,17 @@ const url = Constants.serviceUrl + 'inventoryItems';
 class InventoriesView extends Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
+        this.state = { projectId:'', data: [] };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
     }
     loadDataFromServer() {
         let _this = this;
-        fetch(url, {
+        let _url='';
+        if(this.state.projectId && this.state.projectId!='' && this.state.projectId!='*')
+            _url=url+'/getInventoryItemsByProjectId/'+this.state.projectId;
+        else
+            _url=url;
+        fetch(_url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -63,13 +68,25 @@ class InventoriesView extends Component {
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
     }
+    
+    onProjectChange(project){
+        this.setState({projectId:project._id});
+    }
     render() {
         return (
             <PageView title="Inventory Items">
                 <div className="ibox">
                     <div className="ibox-title">
                         <div className="ibox-tools">
-                            <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
+                             <div className="row">
+                                <div className="col-md-2 col-sm-12 col-xs-12 form-group">
+                                    <label className="pull-left">Project</label>
+                                    <ProjectDropdownList  onChange={(value) => this.onProjectChange(value)} />
+                                </div>
+                                <div className="col-md-10 col-sm-12 col-xs-12">
+                                    <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="ibox-content">

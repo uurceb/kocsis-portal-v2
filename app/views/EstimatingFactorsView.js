@@ -5,6 +5,7 @@ import DataTable from "../components/common/DataTable"
 import Constants from '../constants'
 import AddNewButton from '../components/common/AddNewButton'
 import { ModalManager } from 'react-dynamic-modal'
+import CategoryDropdownList from '../components/common/CategoryDropdownList'
 
 
 const colProps = [
@@ -20,12 +21,17 @@ const url = Constants.serviceUrl + 'estimatingfactors';
 class EstimatingFactorsView extends Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] };
+        this.state = { categoryId: '', data: [] };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
     }
     loadDataFromServer() {
         let _this = this;
-        fetch(url, {
+        let _url = '';
+        if (this.state.categoryId && this.state.categoryId != '' && this.state.categoryId != '*')
+            _url = url + '/getEstFactorsByCatId/' + this.state.categoryId;
+        else
+            _url = url;
+        fetch(_url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -52,13 +58,26 @@ class EstimatingFactorsView extends Component {
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
     }
+
+    onCategoryChange(categoryId) {
+        this.setState({ categoryId: categoryId });
+    }
     render() {
         return (
             <PageView title="Estimating Factors">
                 <div className="ibox">
                     <div className="ibox-title">
                         <div className="ibox-tools">
-                            <AddNewButton onClick={() => this.openViewModal()} label="Add New Estimating Factor" />
+                            <div className="row">
+                                <div className="col-md-2 col-sm-12 col-xs-12">
+                                    <label className="pull-left">Category</label>
+                                    <CategoryDropdownList onChange={(value) => this.onCategoryChange(value)} />
+                                </div>
+                                <div className="col-md-10 col-sm-12 col-xs-12">
+                                    <AddNewButton onClick={() => this.openViewModal()} label="Add New Estimating Factor" />
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <div className="ibox-content">

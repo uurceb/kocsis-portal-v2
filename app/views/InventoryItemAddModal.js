@@ -33,7 +33,7 @@ class InventoryItemAddModal extends Component {
             ModalManager.close();
         }).catch(function () {
             console.log("errore");
-        });;
+        });
     }
     render() {
         const { formData } = this.state;
