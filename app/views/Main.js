@@ -32,7 +32,7 @@ const SimpleLineChart = React.createClass({
 
 const ddata = {
     labels: [
-        'Canceled',
+        'Cancelled',
         'Pending Approval',
         'Signed Off'
     ],

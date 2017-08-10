@@ -5,15 +5,19 @@ import DataTable from '../components/common/DataTable'
 import StatusDropdownList from '../components/common/StatusDropdownList'
 const url = Constants.serviceUrl;
 import InventoryItemsList from './InventoryItemsList'
+import CommentBox from '../components/common/CommentBox'
+import ProjectPhaseTab from './ProjectPhaseTab'
 
 class ProjectDetailView extends Component {
     constructor(props) {
         super(props);
-        this.state = { _id: props.params.projectId, projectData: {}, projectPhase: {}, estFactors: [], inventoryItems: [], sum: 0, updatedProject: {}, formData: { changeStatus: false } }
+        this.state = { _id: props.params.projectId, projectData: null, projectPhase: null, estFactors: [], inventoryItems: [], comments: [], sum: 0, updatedProject: {}, formData: { changeStatus: false, newComment: '' } }
         this.loadDataFromServer.bind(this);
         this.loadPhaseData.bind(this);
         this.loadEstFactorData.bind(this);
+        this.loadCommentsData.bind(this);
         this.onSaveChange.bind(this);
+        this.onAddComment.bind(this);
     }
 
     loadDataFromServer() {
@@ -31,6 +35,8 @@ class ProjectDetailView extends Component {
                 this.loadPhaseData();
                 this.loadEstFactorData();
                 this.loadInventoryData();
+                this.loadCommentsData();
+                this.setState({ updatedProject: Object.assign({}, this.state.projectData) });
             })
             .catch((error) => {
                 console.error(error);
@@ -87,7 +93,23 @@ class ProjectDetailView extends Component {
                 _this.setState({ inventoryItems: responseJson });
                 _this.state.inventoryItems.map((inventoryItem) => tempSum = tempSum + inventoryItem._estfactor.value);
                 _this.setState({ sum: tempSum });
-                this.setState({ updatedProject: Object.assign({}, this.state.projectData) });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    loadCommentsData() {
+        let _this = this;
+        fetch(url + '/comments/getCommentsByObjectId/' + _this.state._id, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                _this.setState({ comments: responseJson });
             })
             .catch((error) => {
                 console.error(error);
@@ -109,7 +131,7 @@ class ProjectDetailView extends Component {
     }
     onSaveChange() {
         let _this = this;
-        fetch(url+ '/projects/', {
+        fetch(url + '/projects/', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -118,11 +140,30 @@ class ProjectDetailView extends Component {
             body: JSON.stringify(_this.state.updatedProject)
         }).then(function () {
             console.log("project updated");
-            _this.setState({ updatedProject: {},formData:{changeStatus:false} });
+            _this.setState({ updatedProject: {}, formData: { changeStatus: false } });
             _this.loadDataFromServer();
         }).catch(function (err) {
             console.log(err);
         });
+    }
+    onAddComment() {
+        fetch(url + '/comments/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                _object: this.state._id,
+                _user: '598b1df01d9df12e38931338',
+                text: this.state.formData.newComment
+            })
+        }).then(() => {
+            this.loadCommentsData();
+            this.setState({ formData: { newComment: '' } });
+        }).catch((e) => {
+            console.log(e);
+        });;
     }
     render() {
         const { projectData, projectPhase, estFactors, inventoryItems, sum } = this.state;
@@ -154,20 +195,20 @@ class ProjectDetailView extends Component {
 
         const { formData } = this.state;
         return (
-            <PageView title={projectData.projectName}>
+            <PageView title={projectData&&projectData.projectName}>
                 <div className="ibox">
                     <div className="ibox-content">
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="m-b-md">
-                                    <a href="#" className="btn btn-white btn-xs pull-right">Edit project</a>
-                                    <h2>{projectData.projectName}</h2>
+                                    <a href="#" className="btn btn-white btn-xs pull-right">Delete project</a>
+                                    <h2>{projectData && projectData.projectName}</h2>
                                 </div>
                                 <dl className="dl-horizontal">
                                     <div className="row">
-                                        <div className="col-md-4 col-sm-12 col-xs-12">
-                                            <dt>Status:</dt> {!formData.changeStatus ?
-                                                <dd><span className="label label-primary">{projectData._status ? projectData._status.statusName : 'No status'}</span><small style={{marginLeft:'5px'}}><a onClick={() => this.onDataChange('changeStatus', true)}>change</a></small></dd>
+                                        <div className="col-md-4 col-sm-12 col-xs-12" style={{ float: 'left' }}>
+                                            <dt>Status:</dt> {projectData&&!formData.changeStatus ?
+                                                <dd><span className="label label-primary">{projectData._status ? projectData._status.statusName : 'No status'}</span><small style={{ marginLeft: '5px' }}><a onClick={() => this.onDataChange('changeStatus', true)}>change</a></small></dd>
                                                 : <dd ><StatusDropdownList onChange={(value) => this.onProjectDataChange('_status', value)} /><button onClick={() => this.onSaveChange('changeStatus', false)}>save</button><button onClick={() => this.onDataChange('changeStatus', false)}>cancel</button></dd>}</div>
 
                                     </div>
@@ -179,9 +220,9 @@ class ProjectDetailView extends Component {
                                 <dl className="dl-horizontal">
 
                                     <dt>Created by:</dt> <dd>Uğur Cebeci</dd>
-                                    <dt>Description:</dt> <dd> {projectData.description}</dd>
-                                    <dt>Client:</dt> <dd><a href="#" className="text-navy"> {projectData.customer}</a> </dd>
-                                    <dt>Category:</dt> <dd> {projectData._category ? projectData._category.categoryName : 'No category'} </dd>
+                                    <dt>Description:</dt> <dd> {projectData && projectData.description}</dd>
+                                    <dt>Client:</dt> <dd><a href="#" className="text-navy"> {projectData && projectData.customer}</a> </dd>
+                                    <dt>Category:</dt> <dd> {projectData && projectData._category ? projectData._category.categoryName : 'No category'} </dd>
                                 </dl>
                             </div>
                             <div className="col-lg-7" id="cluster_info">
@@ -219,47 +260,8 @@ class ProjectDetailView extends Component {
 
                                         <div className="tab-content">
                                             <div className="tab-pane fade active in" id="tab-2">
-                                                {projectPhase ? <div>
-                                                    <ul className="todo-list m-t">
-                                                        <li style={{ float: 'left', width: projectPhase.analysis + '%' }}>
-                                                            <span className="name"> Analysis</span><br />
-                                                            <span className="value text-success"> {projectPhase.analysis + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: projectPhase.design + '%' }}>
-                                                            <span className="name"> Design</span><br />
-                                                            <span className="value text-success"> {projectPhase.design + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: projectPhase.dev + '%' }}>
-                                                            <span className="name"> Development</span><br />
-                                                            <span className="value text-success"> {projectPhase.dev + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: projectPhase.unitTest + '%' }}>
-                                                            <span className="name"> Unit Test</span><br />
-                                                            <span className="value text-success"> {projectPhase.unitTest + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: projectPhase.intTest + '%' }}>
-                                                            <span className="name"> Int Test</span><br />
-                                                            <span className="value text-success"> {projectPhase.intTest + '%'} </span>
-                                                        </li>
-                                                        <li >
-                                                            <span className="name" style={{ width: projectPhase.uat + '%' }}> UAT</span><br />
-                                                            <span className="value text-success"> {projectPhase.uat + '%'} </span>
-                                                        </li>
-                                                    </ul>
-                                                    <ul className="todo-list m-t">
-                                                        <li style={{ float: 'left', width: '34%' }}>
-                                                            <span className="name" > Project Management</span>
-                                                            <span className="value text-success"> {projectPhase.pManagement + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: '33%' }}>
-                                                            <span className="name" > Solution Architecture</span>
-                                                            <span className="value text-success"> {projectPhase.solArch + '%'} </span>
-                                                        </li>
-                                                        <li style={{ float: 'left', width: '33%' }}>
-                                                            <span className="name" > Code Merge & Regression</span>
-                                                            <span className="value text-success"> {projectPhase.codeMergeReg + '%'} </span>
-                                                        </li>
-                                                    </ul></div> : 'Not any project phase defined'
+                                                {
+                                                    projectPhase ? <ProjectPhaseTab projectPhase={projectPhase} /> : 'Not any project phase defined'
                                                 }
                                             </div>
                                             <div className="tab-pane fade" id="tab-3">
@@ -343,7 +345,7 @@ class ProjectDetailView extends Component {
                                                             <span className="value text-danger"> {(projectPhase.pManagement + projectPhase.solArch + projectPhase.codeMergeReg) * sum / 100 + sum} </span>ManDay
                                                         </li>
                                                     </ul>
-                                                </div> : 'Not Data to Show!'
+                                                </div> : 'No Data to Show!'
                                                 }
                                             </div>
                                         </div>
@@ -354,22 +356,7 @@ class ProjectDetailView extends Component {
                             </div>
                         </div>
                         <div className="row" style={{ marginTop: '30px' }}>
-                            <div className="feed-activity-list">
-                                <div className="feed-element">
-                                    <a href="#" className="pull-left">
-                                        <img alt="image" className="img-circle" src="img/a2.jpg" />
-                                    </a>
-                                    <div className="media-body ">
-                                        <small className="pull-right">2h ago</small>
-                                        <strong>Mark Johnson</strong> posted message on <strong>Monica Smith</strong> site. <br />
-                                        <small className="text-muted">Today 2:10 pm - 12.06.2014</small>
-                                        <div className="well">
-                                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                                    Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                                </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <CommentBox objectId={this.state._id} />
                         </div>
                     </div>
                 </div></PageView >

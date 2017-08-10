@@ -46,18 +46,18 @@ class ParametersView extends Component {
             <PageView title="Parameters">
                 <div className="row">
                     <div className="col-md-4 col-sm-12 col-xs-12">
-                        <CategoryParamBox url={url} />
+                        <div className="row" style={{marginBottom:'15px'}}>
+                            <CategoryParamBox url={url} />
+                        </div>
+                        <div className="row">
+                            <ProjectStatusParamBox url={url} />
+                        </div>
                     </div>
                     <div className="col-md-4 col-sm-12 col-xs-12">
                         <ComponentsParamBox url={url} />
                     </div>
                     <div className="col-md-4 col-sm-12 col-xs-12">
                         <ComplexityParamBox url={url} />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-4 col-sm-12 col-xs-12">
-                        <ProjectStatusParamBox url={url} />
                     </div>
                 </div>
             </PageView>

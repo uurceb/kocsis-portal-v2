@@ -17,7 +17,7 @@ class ComponentsParamBox extends Component {
     }
     loadDataFromServer() {
         let _this = this;
-        fetch(_this.state.category == '0' ? url : url + '/getCompByCatId/' + _this.state.category, {
+        fetch(_this.state.category === '0' || !_this.state.category || _this.state.category ==='*' ? url : url + '/getCompByCatId/' + _this.state.category, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

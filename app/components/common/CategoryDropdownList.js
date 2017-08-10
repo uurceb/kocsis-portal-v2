@@ -35,7 +35,7 @@ class CategoryDropdownList extends Component {
     render() {
         return (
             <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)}>
-                <option value={0}>*</option>
+                <option>*</option>
                 {
                     this.state.categories.map((category, index) => <option value={category._id} key={index}>{category.categoryName}</option>)
                 }
