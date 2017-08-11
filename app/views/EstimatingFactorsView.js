@@ -21,16 +21,15 @@ const url = Constants.serviceUrl + 'estimatingfactors';
 class EstimatingFactorsView extends Component {
     constructor(props) {
         super(props);
-        this.state = { categoryId: '', data: [] };
+        this.state = { categoryId: '*', data: [], itemCount: 10, pageNo: 1, pageCount: 0 };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
+        this.openViewModal = this.openViewModal.bind(this);
     }
-    loadDataFromServer() {
+    loadDataFromServer(categoryId = this.state.categoryId, pageNo) {
         let _this = this;
         let _url = '';
-        if (this.state.categoryId && this.state.categoryId != '' && this.state.categoryId != '*')
-            _url = url + '/getEstFactorsByCatId/' + this.state.categoryId;
-        else
-            _url = url;
+
+        _url = url + '/getEstFactorsByPageNo/' + categoryId + '&' + pageNo + '&' + this.state.itemCount;
         fetch(_url, {
             method: 'GET',
             headers: {
@@ -40,7 +39,7 @@ class EstimatingFactorsView extends Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                _this.setState({ data: responseJson });
+                _this.setState({ data: responseJson.data, pageCount: responseJson.pageCount });
             })
             .catch((error) => {
                 console.error(error);
@@ -48,11 +47,11 @@ class EstimatingFactorsView extends Component {
     }
     openViewModal() {
         ModalManager.open(
-            <EstFactorAddModal url={url} onRequestClose={() => true} />);
+            <EstFactorAddModal url={url} />);
     }
     componentDidMount() {
-        this.loadDataFromServer();
-        this.loadInterval = setInterval(this.loadDataFromServer, 2000);
+        this.loadDataFromServer(this.state.categoryId, 1);
+        //this.loadInterval = setInterval(this.loadDataFromServer, 2000);
     }
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
@@ -60,9 +59,19 @@ class EstimatingFactorsView extends Component {
     }
 
     onCategoryChange(categoryId) {
+        this.loadDataFromServer(categoryId, 1);
         this.setState({ categoryId: categoryId });
+        this.setState({ pageNo: 1 });
+    }
+    onPageChange(value) {
+        this.loadDataFromServer(this.state.categoryId, value);
+        this.setState({ pageNo: value });
     }
     render() {
+        var options = [];
+        for (var i = 1; i <= this.state.pageCount; i++) {
+            options.push(<option key={i}>{i}</option>);
+        }
         return (
             <PageView title="Estimating Factors">
                 <div className="ibox">
@@ -72,8 +81,11 @@ class EstimatingFactorsView extends Component {
                                 <div className="col-md-2 col-sm-12 col-xs-12">
                                     <label className="pull-left">Category</label>
                                     <CategoryDropdownList onChange={(value) => this.onCategoryChange(value)} />
+                                    <select onChange={(e) => this.onPageChange(e.target.value)} value={this.state.pageNo}>
+                                        {options}
+                                    </select>
                                 </div>
-                                <div className="col-md-10 col-sm-12 col-xs-12">
+                                <div className="col-md-8 col-sm-12 col-xs-12">
                                     <AddNewButton onClick={() => this.openViewModal()} label="Add New Estimating Factor" />
                                 </div>
                             </div>

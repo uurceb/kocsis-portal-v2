@@ -33,6 +33,7 @@ class EstFactorAddModal extends Component {
             })
         }).then(function () {
             ModalManager.close();
+            this.props.onRequestClose();
         }).catch(function () {
             console.log("errore");
         });;

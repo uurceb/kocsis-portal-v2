@@ -7,6 +7,9 @@ const url = Constants.serviceUrl;
 import InventoryItemsList from './InventoryItemsList'
 import CommentBox from '../components/common/CommentBox'
 import ProjectPhaseTab from './ProjectPhaseTab'
+import { ModalManager } from 'react-dynamic-modal';
+import DeleteConfirmModal from '../components/common/DeleteConfirmModal'
+import { Link, browserHistory } from 'react-router';
 
 class ProjectDetailView extends Component {
     constructor(props) {
@@ -165,6 +168,27 @@ class ProjectDetailView extends Component {
             console.log(e);
         });;
     }
+    delete() {
+        fetch(url + '/projects/', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                _id: this.state._id,
+            })
+        }).then(function () {
+            //this.context.history.push("/#/projects");
+            browserHistory.push("/#/projects")
+        }).catch(function () {
+            console.log("errore");
+        });;
+    }
+    onDelete() {
+        ModalManager.open(
+            <DeleteConfirmModal onConfirm={() => this.delete()} />);
+    }
     render() {
         const { projectData, projectPhase, estFactors, inventoryItems, sum } = this.state;
         const efColProps = [
@@ -195,19 +219,19 @@ class ProjectDetailView extends Component {
 
         const { formData } = this.state;
         return (
-            <PageView title={projectData&&projectData.projectName}>
+            <PageView title={projectData && projectData.projectName}>
                 <div className="ibox">
                     <div className="ibox-content">
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="m-b-md">
-                                    <a href="#" className="btn btn-white btn-xs pull-right">Delete project</a>
+                                    <a  className="btn btn-white btn-xs pull-right" onClick={() => this.onDelete()}>Delete project</a>
                                     <h2>{projectData && projectData.projectName}</h2>
                                 </div>
                                 <dl className="dl-horizontal">
                                     <div className="row">
                                         <div className="col-md-4 col-sm-12 col-xs-12" style={{ float: 'left' }}>
-                                            <dt>Status:</dt> {projectData&&!formData.changeStatus ?
+                                            <dt>Status:</dt> {projectData && !formData.changeStatus ?
                                                 <dd><span className="label label-primary">{projectData._status ? projectData._status.statusName : 'No status'}</span><small style={{ marginLeft: '5px' }}><a onClick={() => this.onDataChange('changeStatus', true)}>change</a></small></dd>
                                                 : <dd ><StatusDropdownList onChange={(value) => this.onProjectDataChange('_status', value)} /><button onClick={() => this.onSaveChange('changeStatus', false)}>save</button><button onClick={() => this.onDataChange('changeStatus', false)}>cancel</button></dd>}</div>
 
