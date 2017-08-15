@@ -9,7 +9,7 @@ import { ModalManager } from 'react-dynamic-modal';
 class EstFactorAddModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { formData: { categoryId: '', component: '', complexity: '', newOrModified: '', value: '' } }
+        this.state = { formData: { categoryId: this.props.isCopied ? this.props.copiedObj._category._id : props.categoryId, component: this.props.isCopied ? this.props.copiedObj.component : '', complexity: this.props.isCopied ? this.props.copiedObj.complexity : '', newOrModified: this.props.isCopied ? this.props.copiedObj.newOrModified : '', value: this.props.isCopied ? this.props.copiedObj.value : '' } }
     }
     onDataChange(key, value) {
         let _formData = this.state.formData;
@@ -33,7 +33,6 @@ class EstFactorAddModal extends Component {
             })
         }).then(function () {
             ModalManager.close();
-            this.props.onRequestClose();
         }).catch(function () {
             console.log("errore");
         });;
@@ -41,25 +40,25 @@ class EstFactorAddModal extends Component {
     render() {
         const { formData } = this.state;
         return (
-            <FormModal id={this.props.modalId} title="Add Estimating Factor" onSubmit={() => this.onSubmit()} >
+            <FormModal id={this.props.modalId} title={this.props.isCopied ? "Copy Estimating Factor" : "Add Estimating Factor"} onSubmit={() => this.onSubmit()} >
                 <div className="row">
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Category</label>
-                        <CategoryDropdownList onChange={(value) => this.onDataChange("categoryId", value)} />
+                        <CategoryDropdownList defaultValue={this.state.formData.categoryId} onChange={(value) => this.onDataChange("categoryId", value)} />
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Component  </label>
-                        <ComponentDropdownList categoryId={formData.categoryId} onChange={(value) => this.onDataChange("component", value)} />
+                        <ComponentDropdownList categoryId={formData.categoryId} defaultValue={formData.component} onChange={(value) => this.onDataChange("component", value)} />
                     </div>
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Complexity  </label>
-                        <ComplexityDropdownList onChange={(value) => this.onDataChange("complexity", value)} />
+                        <ComplexityDropdownList defaultValue={formData.complexity} onChange={(value) => this.onDataChange("complexity", value)} />
                     </div>
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="newOrModified">New/Modified</label>
-                        <select className="form-control" onChange={(e) => this.onDataChange("newOrModified",e.target.value)}>
+                        <select className="form-control" value={this.state.formData.newOrModified} onChange={(e) => this.onDataChange("newOrModified", e.target.value)}>
                             <option value={0}>*</option>
                             <option value="New" >New</option>
                             <option value="Modified" >Modified</option>

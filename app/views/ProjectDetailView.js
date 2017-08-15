@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PageView from '../components/common/PageView'
-import Constants from '../constants'
 import DataTable from '../components/common/DataTable'
 import StatusDropdownList from '../components/common/StatusDropdownList'
+import Constants from '../constants'
 const url = Constants.serviceUrl;
 import InventoryItemsList from './InventoryItemsList'
 import CommentBox from '../components/common/CommentBox'

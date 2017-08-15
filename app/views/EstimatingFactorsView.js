@@ -6,14 +6,14 @@ import Constants from '../constants'
 import AddNewButton from '../components/common/AddNewButton'
 import { ModalManager } from 'react-dynamic-modal'
 import CategoryDropdownList from '../components/common/CategoryDropdownList'
-
+import EstFactorsList from './EstFactorsList'
 
 const colProps = [
     { colHeader: 'Category', colWidth: '25%' },
     { colHeader: 'Component', colWidth: '20%' },
     { colHeader: 'Complexity', colWidth: '15%' },
-    { colHeader: 'New/Modified', colWidth: '15%' },
-    { colHeader: 'Value', colWidth: '5%' }]
+    { colHeader: 'New/Modified', colWidth: '10%' },
+    { colHeader: 'Value', colWidth: '10%' }]
 
 const objectKeys = [{ key: '_category', childKey: 'categoryName' }, 'component', 'complexity', 'newOrModified', 'value'];
 const url = Constants.serviceUrl + 'estimatingfactors';
@@ -47,11 +47,11 @@ class EstimatingFactorsView extends Component {
     }
     openViewModal() {
         ModalManager.open(
-            <EstFactorAddModal url={url} />);
+            <EstFactorAddModal url={url} categoryId={this.state.categoryId}/>);
     }
     componentDidMount() {
         this.loadDataFromServer(this.state.categoryId, 1);
-        //this.loadInterval = setInterval(this.loadDataFromServer, 2000);
+        this.loadInterval = setInterval(() => this.loadDataFromServer(this.setState.categoryId, this.state.pageNo), 2000);
     }
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
@@ -85,7 +85,7 @@ class EstimatingFactorsView extends Component {
                                         {options}
                                     </select>
                                 </div>
-                                <div className="col-md-8 col-sm-12 col-xs-12">
+                                <div className="col-md-10 col-sm-12 col-xs-12">
                                     <AddNewButton onClick={() => this.openViewModal()} label="Add New Estimating Factor" />
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ class EstimatingFactorsView extends Component {
                         </div>
                     </div>
                     <div className="ibox-content">
-                        <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
+                        <EstFactorsList data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
                     </div>
                 </div>
             </PageView>
