@@ -90,15 +90,16 @@ class EstFactorRow extends Component {
                         <i className="fa fa-save" ></i>Save</button>
                 }</td>
                 <td>
-                    <button className="btn btn-white btn-sm" onClick={() => this.onCopy()}><i className="fa fa-copy" ></i>Copy</button>
-                </td>
-                <td>
                     {
                         !this.state.editMode ?
                             <button style={{ float: 'left' }} className="btn btn-white btn-sm" onClick={() => this.setState({ editMode: true })}>
                                 <i className="fa fa-edit" ></i>Edit</button>
-                            : <button className="btn btn-white btn-sm" onClick={() => this.setState({ editMode: false })}>Cancel</button>}
+                            : <button className="btn btn-white btn-sm" onClick={() => this.setState({ editMode: false })}><i className="fa fa-cancel" ></i>Cancel</button>}
                 </td>
+                <td>
+                    <button className="btn btn-white btn-sm" onClick={() => this.onCopy()}><i className="fa fa-copy" ></i>Copy</button>
+                </td>
+
 
 
                 {!this.props.disableButtons &&
