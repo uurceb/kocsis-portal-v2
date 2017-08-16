@@ -44,7 +44,7 @@ class EstFactorAddModal extends Component {
                 <div className="row">
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Category</label>
-                        <CategoryDropdownList defaultValue={this.state.formData.categoryId} onChange={(value) => this.onDataChange("categoryId", value)} />
+                        <CategoryDropdownList defaultValue={formData.categoryId} onChange={(value) => this.onDataChange("categoryId", value)} />
                     </div>
                 </div>
                 <div className="row">
@@ -59,7 +59,7 @@ class EstFactorAddModal extends Component {
                     <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="newOrModified">New/Modified</label>
                         <select className="form-control" value={this.state.formData.newOrModified} onChange={(e) => this.onDataChange("newOrModified", e.target.value)}>
-                            <option value={0}>*</option>
+                            <option value="*" >*</option>
                             <option value="New" >New</option>
                             <option value="Modified" >Modified</option>
                         </select>

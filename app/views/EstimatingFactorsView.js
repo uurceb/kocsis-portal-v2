@@ -21,7 +21,7 @@ const url = Constants.serviceUrl + 'estimatingfactors';
 class EstimatingFactorsView extends Component {
     constructor(props) {
         super(props);
-        this.state = { categoryId: '*', data: [], itemCount: 10, pageNo: 1, pageCount: 0 };
+        this.state = { categoryId: '*', data: [], itemCount: 15, pageNo: 1, pageCount: 0 };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
         this.openViewModal = this.openViewModal.bind(this);
     }

@@ -79,11 +79,11 @@ class InventoriesView extends Component {
                     <div className="ibox-title">
                         <div className="ibox-tools">
                              <div className="row">
-                                <div className="col-md-2 col-sm-12 col-xs-12 form-group">
+                                <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                                     <label className="pull-left">Project</label>
                                     <ProjectDropdownList  onChange={(value) => this.onProjectChange(value)} />
                                 </div>
-                                <div className="col-md-10 col-sm-12 col-xs-12">
+                                <div className="col-md-8 col-sm-12 col-xs-12">
                                     <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
                                 </div>
                             </div>

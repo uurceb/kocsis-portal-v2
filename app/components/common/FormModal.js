@@ -7,7 +7,7 @@ class FormModal extends Component {
     }
     render() {
         return (
-            <Modal onRequestClose={true}
+            <Modal onRequestClose={() => ModalManager.close()}
                 effect={Effect.ScaleUp}>
                 <div className="ibox">
                     <div className="modal-header">
@@ -19,7 +19,7 @@ class FormModal extends Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-default" onClick={ModalManager.close}>Close</button>
-                        <button type="submit" className="btn btn-primary" onClick={() => {this.props.onSubmit()}}>Save changes</button>
+                        <button type="submit" className="btn btn-primary" onClick={() => { this.props.onSubmit() }}>Save changes</button>
                     </div>
                 </div>
             </Modal>

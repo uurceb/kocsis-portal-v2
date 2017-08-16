@@ -23,7 +23,7 @@ const EstFactorsList = (props) => (
                     props.colProps.map((colProp, index) => <th key={index} style={{ width: colProp.colWidth }}>{colProp.colHeader}</th>)
                 }
                     {!props.disableButtons &&
-                        <th style={{ width: "10%" }}>#Edit</th>}
+                        <th style={{ width: "10%" }}></th>}
                 </tr>
             </thead>
             <DataRows data={props.data} url={props.url} objKeys={props.objKeys} screenName={props.screenName} disableButtons={props.disableButtons} />
