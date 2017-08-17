@@ -32,7 +32,7 @@ class ProjectDropdownList extends Component {
     onDataChange(value) {
         var _project = this.state.projects.filter(x => x._id === value)[0];
         if (!_project)
-            _project = {};
+            _project = {_id:'*'};
 
         this.props.onChange(_project);
     }

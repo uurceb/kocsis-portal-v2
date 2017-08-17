@@ -31,16 +31,14 @@ const url = Constants.serviceUrl + 'inventoryItems';
 class InventoriesView extends Component {
     constructor(props) {
         super(props);
-        this.state = { projectId:'', data: [] };
+        this.state = { projectId: '*', data: [], itemCount: 15, pageNo: 1, pageCount: 0 };
         this.loadDataFromServer = this.loadDataFromServer.bind(this);
     }
-    loadDataFromServer() {
+    loadDataFromServer(projectId, pageNo) {
         let _this = this;
-        let _url='';
-        if(this.state.projectId && this.state.projectId!='' && this.state.projectId!='*')
-            _url=url+'/getInventoryItemsByProjectId/'+this.state.projectId;
-        else
-            _url=url;
+        let _url = '';
+
+        _url = url + '/getInventoryItemsByPageNo/' + projectId + '&' + pageNo + '&' + this.state.itemCount;
         fetch(_url, {
             method: 'GET',
             headers: {
@@ -50,7 +48,7 @@ class InventoriesView extends Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                _this.setState({ data: responseJson });
+                _this.setState({ data: responseJson.data, pageCount: responseJson.pageCount });
             })
             .catch((error) => {
                 console.error(error);
@@ -61,27 +59,42 @@ class InventoriesView extends Component {
             <InventoryItemAddModal url={url} onRequestClose={() => true} />);
     }
     componentDidMount() {
-        this.loadDataFromServer();
-        this.loadInterval = setInterval(this.loadDataFromServer, 2000);
+        this.loadDataFromServer(this.state.projectId, 1);
+        this.loadInterval = setInterval(this.loadDataFromServer(this.state.projectId, this.state.pageNo), 2000);
     }
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
     }
-    
-    onProjectChange(project){
-        this.setState({projectId:project._id});
+
+    onProjectChange(project) {
+
+        this.loadDataFromServer(project._id, 1);
+        this.setState({ projectId: project._id });
+        this.setState({ pageNo: 1 });
+    }
+
+    onPageChange(value) {
+        this.loadDataFromServer(this.state.projectId, value);
+        this.setState({ pageNo: value });
     }
     render() {
+        var options = [];
+        for (var i = 1; i <= this.state.pageCount; i++) {
+            options.push(<option key={i}>{i}</option>);
+        }
         return (
             <PageView title="Inventory Items">
                 <div className="ibox">
                     <div className="ibox-title">
                         <div className="ibox-tools">
-                             <div className="row">
+                            <div className="row">
                                 <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                                     <label className="pull-left">Project</label>
-                                    <ProjectDropdownList  onChange={(value) => this.onProjectChange(value)} />
+                                    <ProjectDropdownList onChange={(value) => this.onProjectChange(value)} />
+                                    <select onChange={(e) => this.onPageChange(e.target.value)} value={this.state.pageNo}>
+                                        {options}
+                                    </select>
                                 </div>
                                 <div className="col-md-8 col-sm-12 col-xs-12">
                                     <AddNewButton onClick={() => this.openViewModal()} label="Add New Inventory Item" />
