@@ -9,7 +9,13 @@ import { ModalManager } from 'react-dynamic-modal';
 class EstFactorAddModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { formData: { categoryId: this.props.isCopied ? this.props.copiedObj._category._id : props.categoryId, component: this.props.isCopied ? this.props.copiedObj.component : '', complexity: this.props.isCopied ? this.props.copiedObj.complexity : '', newOrModified: this.props.isCopied ? this.props.copiedObj.newOrModified : '', value: this.props.isCopied ? this.props.copiedObj.value : '' } }
+        this.state = { 
+            formData: { categoryId: this.props.isCopied ? this.props.copiedObj._category._id : props.categoryId, 
+                component: this.props.isCopied ? this.props.copiedObj.component : '', 
+                complexity: this.props.isCopied ? this.props.copiedObj.complexity : '', 
+                newOrModified: this.props.isCopied ? this.props.copiedObj.newOrModified : '', 
+                value: this.props.isCopied ? this.props.copiedObj.value : '' } 
+            }
     }
     onDataChange(key, value) {
         let _formData = this.state.formData;

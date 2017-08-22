@@ -5,6 +5,7 @@ import ComponentsParamBox from './ComponentsParamBox'
 import ComplexityParamBox from './ComplexityParamBox'
 import CategoryParamBox from './CategoryParamBox'
 import ProjectStatusParamBox from './ProjectStatusParamBox'
+import $ from 'jquery'
 const url = Constants.serviceUrl;
 
 
@@ -35,6 +36,7 @@ class ParametersView extends Component {
     componentDidMount() {
         this.loadDataFromServer();
         this.loadInterval = setInterval(this.loadDataFromServer, 2000);
+
     }
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
@@ -46,7 +48,7 @@ class ParametersView extends Component {
             <PageView title="Parameters">
                 <div className="row">
                     <div className="col-md-4 col-sm-12 col-xs-12">
-                        <div className="row" style={{marginBottom:'15px'}}>
+                        <div className="row" style={{ marginBottom: '15px' }}>
                             <CategoryParamBox url={url} />
                         </div>
                         <div className="row">

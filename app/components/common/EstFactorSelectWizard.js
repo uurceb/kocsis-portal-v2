@@ -7,7 +7,7 @@ const url = Constants.serviceUrl + 'estimatingfactors';
 class EstFactorSelectWizard extends Component {
     constructor(props) {
         super(props);
-        this.state = { estimationfactors: [], formData: { component: '', complexity: '', newOrModified: '' }, value: '' }
+        this.state = { estimationfactors: [], formData: { component: '', complexity: '', newOrModified: '' }, value: 'not found' }
     }
     onDataChange(key, value) {
         let _formData = this.state.formData;
@@ -36,6 +36,19 @@ class EstFactorSelectWizard extends Component {
             .then((response) => response.json())
             .then((responseJson) => {
                 _this.setState({ estimationfactors: responseJson });
+                if (_this.props.defaultValue != '' && _this.props.defaultValue != '*') {
+                    var estfactor = this.state.estimationfactors
+                        .find((estimationfactor) => {
+                            return estimationfactor._id === _this.props.defaultValue
+                        });
+                    this.setState({
+                        formData: {
+                            component: estfactor.component,
+                            complexity: estfactor.complexity,
+                            newOrModified: estfactor.newOrModified
+                        }, value: estfactor.value
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -45,29 +58,34 @@ class EstFactorSelectWizard extends Component {
         this.loadDataFromServer(this.props.categoryId);
     }
     render() {
+        const { component, complexity, newOrModified } = this.state.formData;
+        const { value } = this.state;
         return (
-            
             <div className="row" >
-                <div className="col-md-3 col-sm-12 col-xs-12 form-group">
+                <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                     <label htmlFor="projectName">Component  </label>
-                    <ComponentDropdownList categoryId={this.props.categoryId} onChange={(value) => this.onDataChange("component", value)} />
+                    <ComponentDropdownList categoryId={this.props.categoryId} defaultValue={component} onChange={(value) => this.onDataChange("component", value)} />
                 </div>
                 <div className="col-md-3 col-sm-12 col-xs-12 form-group">
                     <label htmlFor="projectName">Complexity  </label>
-                    <ComplexityDropdownList onChange={(value) => this.onDataChange("complexity", value)} />
+                    <ComplexityDropdownList defaultValue={complexity} onChange={(value) => this.onDataChange("complexity", value)} />
                 </div>
-                <div className="col-md-3 col-sm-12 col-xs-12 form-group">
+                <div className="col-md-2 col-sm-12 col-xs-12 form-group">
                     <label htmlFor="newOrModified">New/Modified</label>
-                    <select className="form-control" onChange={(e) => this.onDataChange("newOrModified", e.target.value)}>
+                    <select className="form-control" onChange={(e) => this.onDataChange("newOrModified", e.target.value)} value={newOrModified}>
                         <option value="*" >*</option>
                         <option value="New" >New</option>
                         <option value="Modified" >Modified</option>
                     </select>
                 </div>
-                <div className="col-md-3 col-sm-12 col-xs-12 form-group">
+                <div className="col-md-2 col-sm-12 col-xs-12 form-group">
                     <label htmlFor="value">Value</label>
                     <input className="form-control" type="textfield" id="value" value={this.state.value} />
                 </div>
+
+                <div className="col-md-1 col-sm-12 col-xs-12 form-group" ><label htmlFor="value">valid?</label>{this.state.value === 'not found' ? <i id="validIcon" className="fa fa-ban"></i> : <i id="validIcon" className="fa fa-check" ></i>}</div>
+
+
             </div>
         );
     }

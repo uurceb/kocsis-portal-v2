@@ -33,6 +33,10 @@ class ComplexityDropdownList extends Component {
         this.props.onChange(value);
         this.setState({ selectedValue: value });
     }
+    componentWillReceiveProps(nextProp) {
+        if (this.props.defaultValue != nextProp.defaultValue)
+            this.setState({ selectedValue: nextProp.defaultValue })
+    }
     render() {
         return (
             <select className="form-control" onChange={(e) => this.onDataChange(e.target.value)} value={this.state.selectedValue}>

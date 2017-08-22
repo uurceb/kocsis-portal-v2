@@ -6,11 +6,12 @@ import Constants from '../constants'
 import AddNewButton from '../components/common/AddNewButton'
 import { ModalManager } from 'react-dynamic-modal'
 import ProjectDropdownList from '../components/common/ProjectDropdownList'
+import InventoryList from './InventoryList'
 
 const colProps = [
     { colHeader: 'Project Name', colWidth: '10%' },
     { colHeader: 'Component', colWidth: '10%' },
-    { colHeader: 'Short Description', colWidth: '10%' },
+    { colHeader: 'Short Description', colWidth: '20%' },
     { colHeader: 'Complexity', colWidth: '10%' },
     { colHeader: 'New/Modified', colWidth: '10%' },
     { colHeader: 'Remarks', colWidth: '10%' },
@@ -60,7 +61,7 @@ class InventoriesView extends Component {
     }
     componentDidMount() {
         this.loadDataFromServer(this.state.projectId, 1);
-        this.loadInterval = setInterval(this.loadDataFromServer(this.state.projectId, this.state.pageNo), 2000);
+        this.loadInterval = setInterval(()=>this.loadDataFromServer(this.state.projectId, this.state.pageNo), 2000);
     }
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
@@ -68,7 +69,6 @@ class InventoriesView extends Component {
     }
 
     onProjectChange(project) {
-
         this.loadDataFromServer(project._id, 1);
         this.setState({ projectId: project._id });
         this.setState({ pageNo: 1 });
@@ -103,7 +103,7 @@ class InventoriesView extends Component {
                         </div>
                     </div>
                     <div className="ibox-content">
-                        <DataTable data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
+                        <InventoryList data={this.state.data} url={url} colProps={colProps} objKeys={objectKeys} />
                     </div>
                 </div>
             </PageView>

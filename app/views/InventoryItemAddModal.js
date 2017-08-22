@@ -10,7 +10,17 @@ import { ModalManager } from 'react-dynamic-modal';
 class InventoryItemAddModal extends Component {
     constructor(props) {
         super(props);
-        this.state = { formData: { project: {}, estfactorId: '', shortDescription: '', remarks: '', inOutScope: 'In' } }
+        const { isCopied, isEdited, copiedObj } = this.props;
+        this.state = {
+            formData:
+            {
+                project: (isCopied || isEdited) ? copiedObj._project : {},
+                estfactorId: (isCopied || isEdited) ? copiedObj._estfactor._id : '',
+                shortDescription: (isCopied || isEdited) ? copiedObj.shortDescription : '',
+                remarks: (isCopied || isEdited) ? copiedObj.remarks : '',
+                inOutScope: (isCopied || isEdited) ? copiedObj.inOutScope : 'In'
+            }
+        }
     }
     onDataChange(key, value) {
         let _formData = this.state.formData;
@@ -18,45 +28,66 @@ class InventoryItemAddModal extends Component {
         this.setState({ formData: _formData });
     }
     onSubmit() {
-        fetch(this.props.url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                _project: this.state.formData.project._id,
-                _estfactor: this.state.formData.estfactorId,
-                shortDescription: this.state.formData.shortDescription,
-                remarks: this.state.formData.remarks,
-                inOutScope: this.state.formData.inOutScope
-            })
-        }).then(function () {
-            ModalManager.close();
-        }).catch(function () {
-            console.log("errore");
-        });
+        if (this.props.isEdited)
+            fetch(this.props.url, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    _id:this.props.copiedObj._id,
+                    _project: this.state.formData.project._id,
+                    _estfactor: this.state.formData.estfactorId,
+                    shortDescription: this.state.formData.shortDescription,
+                    remarks: this.state.formData.remarks,
+                    inOutScope: this.state.formData.inOutScope
+                })
+            }).then(function () {
+                ModalManager.close();
+            }).catch(function () {
+                console.log("errore");
+            });
+        else
+            fetch(this.props.url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    _project: this.state.formData.project._id,
+                    _estfactor: this.state.formData.estfactorId,
+                    shortDescription: this.state.formData.shortDescription,
+                    remarks: this.state.formData.remarks,
+                    inOutScope: this.state.formData.inOutScope
+                })
+            }).then(function () {
+                ModalManager.close();
+            }).catch(function () {
+                console.log("errore");
+            });
     }
     render() {
         const { formData } = this.state;
         return (
-            <FormModal id={this.props.modalId} title="Add Inventory Item" onSubmit={() => this.onSubmit()} >
+            <FormModal id={this.props.modalId} title={(this.props.isCopied ? "Copy " : this.props.isEdited ? "Edit " : "Add ") + "Inventory Item"} onSubmit={() => this.onSubmit()} >
                 <div className="row">
                     <div className="col-md-4 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="projectName">Project</label>
-                        <ProjectDropdownList onChange={(value) => this.onDataChange("project", value)} />
+                        <ProjectDropdownList defaultValue={formData.project} onChange={(value) => this.onDataChange("project", value)} />
                     </div>
                     <div className="col-md-2 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="inOutScope">In/Out of Scope</label>
-                        <select className="form-control" id="inOutScope" onChange={(e) => this.onDataChange("inOutScope", e.target.value)}>
+                        <select className="form-control" id="inOutScope" onChange={(e) => this.onDataChange("inOutScope", e.target.value)} value={formData.inOutScopes}>
                             <option value="In" >In</option>
                             <option value="Out" >Out</option>
                         </select>
                     </div></div>
-                <div className="row" style={{paddingLeft:'15px'}}>
-                    {formData.project._id && formData.project._id!='' && formData.project._id!='*' ? <div className="col-md-10 col-sm-12 col-xs-12 form-group">
+                <div className="row" style={{ paddingLeft: '15px' }}>
+                    {formData.project._id && formData.project._id != '' && formData.project._id != '*' ? <div className="col-md-10 col-sm-12 col-xs-12 form-group">
                         <label htmlFor="estimationFactor">Estimation Factor </label>
-                        <EstFactorSelectWizard categoryId={formData.project._category ? formData.project._category._id : null} onChange={(value) => this.onDataChange("estfactorId", value)} />
+                        <EstFactorSelectWizard categoryId={formData.project._category ? formData.project._category._id : null} onChange={(value) => this.onDataChange("estfactorId", value)} defaultValue={formData.estfactorId} />
                     </div> : <p>choose project</p>}
                 </div>
 

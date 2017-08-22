@@ -32,6 +32,9 @@ class ComponentDropdownList extends Component {
     componentWillReceiveProps(nextProp) {
         if (this.props.categoryId != nextProp.categoryId)
             this.loadDataFromServer(nextProp.categoryId);
+
+        if (this.props.defaultValue != nextProp.defaultValue)
+            this.setState({selectedValue:nextProp.defaultValue})
     }
     onDataChange(value) {
         this.props.onChange(value);

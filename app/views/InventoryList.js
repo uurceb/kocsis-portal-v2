@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import EstFactorsRow from './EstFactorRow'
+import InventoryItemRow from './InventoryItemRow'
 
 const DataRows = (props) => (
     <tbody>{props.data.map((row, index) => {
         return (
-            <EstFactorsRow key={row._id} row={row} objKeys={props.objKeys} url={props.url}/>
+            <InventoryItemRow key={row._id} row={row} objKeys={props.objKeys} url={props.url} />
         );
     })}</tbody>
 );
-const EstFactorsList = (props) => (
+const InventoryList = (props) => (
     props.data.length > 0 ?
         <table className="table table-striped">
             {
@@ -27,7 +27,7 @@ const EstFactorsList = (props) => (
                 </tr>
             </thead>
             <DataRows data={props.data} url={props.url} objKeys={props.objKeys} screenName={props.screenName} disableButtons={props.disableButtons} />
-        </table> : <p>No Data  to Show!</p>
+        </table> : <p>No Data to Show!</p>
 );
 
-export default EstFactorsList;
+export default InventoryList;
